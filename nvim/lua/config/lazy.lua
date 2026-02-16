@@ -29,6 +29,7 @@ vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
+vim.opt.clipboard = "unnamedplus"
 
 vim.api.nvim_create_autocmd('TextYankPost', {
     desc = 'just guess',
