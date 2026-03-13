@@ -47,9 +47,8 @@ vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})
 
 
 vim.keymap.set('n', '<leader>n', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>h', vim.diagnostic.open_float)
-
-
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 
 -- Setup lazy.nvim
 require("lazy").setup({
