@@ -4,3 +4,12 @@ font-size = 14
 # window-padding-x = 2
 background = #000000
 # resize-overlay-duration = 4s 200ms
+
+# multiline input
+keybind = shift+enter=text:\x1b\r
+
+# attach to tmux session on new ghostty window
+command = /opt/homebrew/bin/tmux new-session -A -s main
+
+# tmux prefix
+keybind = cmd+p=text:\x02

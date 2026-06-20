@@ -45,8 +45,7 @@ vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})
 
 -- vim.opt.fillchars = { vert = "│" }
 
-
-vim.keymap.set('n', '<leader>n', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+-- shift K get help tip, go to def, jk to go to normal mode
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 vim.keymap.set("i", "jk", "<Esc>")
@@ -63,3 +62,4 @@ require("lazy").setup({
   -- automatically check for plugin updates
   checker = { enabled = true },
 })
+
