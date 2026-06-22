@@ -39,6 +39,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
+vim.opt.autoread = true
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+    desc = 'Check for external file changes and reload buffer',
+    group = vim.api.nvim_create_augroup('checktime-on-focus', { clear = true }),
+    command = 'checktime',
+})
+
 vim.o.updatetime = 250
 vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
@@ -49,6 +57,7 @@ vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 vim.keymap.set("i", "jk", "<Esc>")
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Setup lazy.nvim
 require("lazy").setup({
