@@ -14,10 +14,13 @@ return {
                     winhl = "Normal:TelescopeNormal,FloatBorder:TelescopeBorder",
                 },
             },
+            keymaps = {
+                ["<Esc>"] = "actions.close",
+            },
         },
 
         dependencies = {
-            { "nvim-mini/mini.icons", opts = {} },
+            { "nvim-mini/mini.icons",   opts = {} },
             { "echasnovski/mini.icons", opts = {} },
             {
                 "malewicz1337/oil-git.nvim",

@@ -1,17 +1,17 @@
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -50,6 +50,16 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
 vim.o.updatetime = 250
 vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
+-- close lazy on esc
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lazy",
+  callback = function(event)
+    vim.keymap.set("n", "<Esc>", function()
+      vim.api.nvim_win_close(0, true)
+    end, { buffer = event.buf, nowait = true })
+  end,
+})
+
 
 -- vim.opt.fillchars = { vert = "│" }
 
@@ -61,14 +71,14 @@ vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Setup lazy.nvim
 require("lazy").setup({
-  spec = {
-    -- import your plugins
-    { import = "plugins" },
-  },
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "moonfly" } },
-  -- automatically check for plugin updates
-  checker = { enabled = true },
-})
+    spec = {
+        -- import your plugins
+        { import = "plugins" },
+    },
 
+    -- Configure any other settings here. See the documentation for more details.
+    -- colorscheme that will be used when installing plugins.
+    install = { colorscheme = { "moonfly" } },
+    -- automatically check for plugin updates
+    checker = { enabled = true },
+})
