@@ -20,8 +20,7 @@ return {
 			},
 		},
 		virtualtext = {
-			auto_trigger_ft = { "*" },
-			auto_trigger_ignore_ft = { "help", "lazy", "mason", "oil" },
+			auto_trigger_ft = { "lua", "python", "javascript", "typescript", "rust", "go", "c", "cpp" },
 			show_on_completion_menu = false,
 			keymap = {
 				accept = nil,
