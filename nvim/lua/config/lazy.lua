@@ -68,6 +68,7 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "<leader>td", ":Td<CR>", {silent = true})
 
 -- Setup lazy.nvim
 require("lazy").setup({
