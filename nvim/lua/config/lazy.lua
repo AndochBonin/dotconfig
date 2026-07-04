@@ -39,13 +39,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-vim.opt.autoread = true
-
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
-    desc = 'Check for external file changes and reload buffer',
-    group = vim.api.nvim_create_augroup('checktime-on-focus', { clear = true }),
-    command = 'checktime',
-})
+require("config.file-sync")
 
 vim.o.updatetime = 250
 vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]]
