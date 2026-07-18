@@ -25,5 +25,15 @@ return {
             orchid = "#f0a0b0",
         })
         vim.cmd("colorscheme moonfly")
+
+        local function set_lsp_float_hl()
+            vim.api.nvim_set_hl(0, "LspFloat", { bg = "#000000", fg = "#e0e0e0" })
+            vim.api.nvim_set_hl(0, "LspFloatBorder", { bg = "#000000", fg = "#1c1c1c" })
+        end
+
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            callback = set_lsp_float_hl,
+        })
+        set_lsp_float_hl()
     end,
 }

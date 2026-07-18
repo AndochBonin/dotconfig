@@ -4,8 +4,8 @@ return {
 		provider = "openai_fim_compatible",
 		n_completions = 1,
 		context_window = 2048,
-		throttle = 500,
-		debounce = 300,
+		throttle = 1000,
+		debounce = 1000,
 		request_timeout = 3,
 		provider_options = {
 			openai_fim_compatible = {

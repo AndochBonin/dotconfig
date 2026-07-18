@@ -31,38 +31,94 @@ vim.opt.termguicolors = true
 vim.opt.cursorline = true
 vim.opt.clipboard = "unnamedplus"
 
-vim.api.nvim_create_autocmd('TextYankPost', {
-    desc = 'just guess',
-    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+vim.api.nvim_create_autocmd("TextYankPost", {
+    desc = "just guess",
+    group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
     callback = function()
         vim.highlight.on_yank()
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function()
+        pcall(vim.treesitter.start)
     end,
 })
 
 require("config.file-sync")
 
 vim.o.updatetime = 250
-vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+local suppress_diag_float = false
+
+local function close_diag_float()
+    local win = vim.b.lsp_floating_preview
+    if win and vim.api.nvim_win_is_valid(win) then
+        vim.api.nvim_win_close(win, true)
+        vim.b.lsp_floating_preview = nil
+        return true
+    end
+    return false
+end
+
+local function show_diag_float()
+    if suppress_diag_float then
+        return
+    end
+    vim.diagnostic.open_float(nil, { focus = false })
+end
+
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+    callback = show_diag_float,
+})
+
+vim.api.nvim_create_autocmd("CursorMoved", {
+    callback = function()
+        suppress_diag_float = false
+    end,
+})
+
+vim.keymap.set("n", "<Esc>", function()
+    if close_diag_float() then
+        suppress_diag_float = true
+    end
+end, { desc = "Close diagnostic float" })
 
 -- close lazy on esc
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lazy",
-  callback = function(event)
-    vim.keymap.set("n", "<Esc>", function()
-      vim.api.nvim_win_close(0, true)
-    end, { buffer = event.buf, nowait = true })
-  end,
+    pattern = "lazy",
+    callback = function(event)
+        vim.keymap.set("n", "<Esc>", function()
+            vim.api.nvim_win_close(0, true)
+        end, { buffer = event.buf, nowait = true })
+    end,
 })
 
-
 -- vim.opt.fillchars = { vert = "│" }
-
 -- shift K get help tip, go to def, jk to go to normal mode
-vim.keymap.set("n", "K", vim.lsp.buf.hover)
+local open_floating_preview = vim.lsp.util.open_floating_preview
+---@diagnostic disable-next-line: duplicate-set-field
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    local winhighlight = opts.winhighlight
+    local bufnr, winnr = open_floating_preview(contents, syntax, opts, ...)
+    if winnr and winhighlight then
+        vim.wo[winnr].winhighlight = winhighlight
+    end
+    return bufnr, winnr
+end
+
+vim.keymap.set("n", "K", function()
+    vim.lsp.buf.hover({
+        border = "single",
+        winhighlight = "NormalFloat:LspFloat,Normal:LspFloat,FloatBorder:LspFloatBorder",
+    })
+end, { desc = "LSP hover" })
+
 vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-vim.keymap.set("n", "<leader>td", ":Td<CR>", {silent = true})
+vim.keymap.set("n", "<leader>td", ":Td<CR>", { silent = true })
 
 -- Setup lazy.nvim
 require("lazy").setup({

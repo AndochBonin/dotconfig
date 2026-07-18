@@ -2,7 +2,7 @@ return {
     {
         dir = "~/exo.nvim",
         config = function()
-            require("exo")
+            require("exo").setup()
         end,
     },
 }
