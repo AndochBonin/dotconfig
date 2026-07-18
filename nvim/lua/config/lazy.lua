@@ -119,6 +119,7 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition)
 vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 vim.keymap.set("n", "<leader>td", ":Td<CR>", { silent = true })
+vim.keymap.set("n", "<leader>tt", ":FloatTerminal<CR>", { silent = true, desc = "Toggle floating terminal" })
 
 -- Setup lazy.nvim
 require("lazy").setup({

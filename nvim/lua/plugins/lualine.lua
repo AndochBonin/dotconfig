@@ -4,6 +4,7 @@ return {
     config = function()
         require('lualine').setup({
             options = {
+                globalstatus = true,
                 theme = 'moonfly',
                 section_separators = ' ',
                 component_separators = ' | ',
