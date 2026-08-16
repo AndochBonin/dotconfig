@@ -1,6 +1,6 @@
 return {
     {
-        dir = "~/exo.nvim",
+        "AndochBonin/exo.nvim",
         config = function()
             require("exo").setup()
         end,
