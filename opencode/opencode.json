@@ -17,6 +17,9 @@
   "agent": {
     "exo-review": {
       "permission": { "*": "allow", "edit": "deny" }
+    },
+    "exo-explain": {
+      "permission": { "*": "allow", "edit": "deny" }
     }
   }
 }
